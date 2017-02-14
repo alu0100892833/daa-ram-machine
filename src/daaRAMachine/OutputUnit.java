@@ -9,11 +9,13 @@ import java.util.ArrayList;
  * @since 14-02-2017
  */
 public class OutputUnit {
-	private ArrayList<Integer> OutputTape;
+	private ArrayList<Integer> outputTape;
+	String outputFile;
 	
 	
-	public OutputUnit () {
-		OutputTape = new ArrayList<Integer>();
+	public OutputUnit (String file) {
+		outputTape = new ArrayList<Integer>();
+		outputFile = file;
 	}
 	
 	/**
@@ -21,7 +23,7 @@ public class OutputUnit {
 	 * @param data Es el dato a escribir.
 	 */
 	public void write (Integer data) {
-		OutputTape.add(data);
+		outputTape.add(data);
 	}
 	
 	/**
@@ -30,16 +32,20 @@ public class OutputUnit {
 	 * @param filename Nombre del fichero de salida.
 	 * @throws IOException En el caso de que haya algún problema en el manejo de ficheros.
 	 */
-	public void close (String filename) throws IOException {
+	public void close (boolean error) throws IOException {
 		String writeTape = new String();
-		for (int i=0; i < OutputTape.size(); i++)
-			writeTape = writeTape + OutputTape.get(i) + "  ";
+		for (int i=0; i < outputTape.size(); i++)
+			writeTape = writeTape + outputTape.get(i) + "  ";
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 		try {
-			fw = new FileWriter (filename);
+			fw = new FileWriter (outputFile);
 			bw = new BufferedWriter (fw);
 			bw.write(writeTape);
+			if (error) {
+				bw.newLine();
+				bw.write("IMPORTANTE: LA EJECUCIÓN NO FINALIZÓ CORRECTAMENTE");
+			}
 		}
 		catch (IOException e) {
 			System.out.println("Error en la apertura del fichero de salida");
@@ -59,4 +65,6 @@ public class OutputUnit {
 			
 		}
 	}
+	
+	
 }

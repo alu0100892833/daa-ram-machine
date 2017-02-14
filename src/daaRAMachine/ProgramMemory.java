@@ -17,10 +17,14 @@ public class ProgramMemory {
 		return tasks.get(index);
 	}
 	
-	public int readInstructionByLabel (String label) {
+	public int indexOfInstructionByLabel (String label) {
 		for (int i=0; i < tasks.size(); i++)
 			if (tasks.get(i).getLabel().equals(label))
 				return i;
 		return -1;
+	}
+	
+	public int size () {
+		return tasks.size();
 	}
 }

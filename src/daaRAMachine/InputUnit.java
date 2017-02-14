@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @since 14-02-2017
  */
 public class InputUnit {
-	private ArrayList<Integer> InputTape;
+	private ArrayList<Integer> inputTape;
 	private int pointer;
 	
 	/**
@@ -28,7 +28,7 @@ public class InputUnit {
 			String input = openedFile.readLine();
 			String[] splitting = input.split("\\s+");
 			for (int i=0; i < splitting.length; i++) 
-				InputTape.add(Integer.parseInt(splitting[i]));	
+				inputTape.add(Integer.parseInt(splitting[i]));	
 			if (openedFile.readLine() != null)
 				throw new IOException();
 		}
@@ -54,7 +54,7 @@ public class InputUnit {
 	
 	public Integer accessTape () {
 		pointer++;
-		return InputTape.get(pointer-1);
+		return inputTape.get(pointer-1);
 	}
 	
 	

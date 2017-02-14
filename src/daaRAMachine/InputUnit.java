@@ -2,13 +2,26 @@ package daaRAMachine;
 import java.io.*;
 import java.util.ArrayList;
 
+
+/**
+ * La clase InputUnit representa la unidad de entrada, que lee de un fichero la cinta con los datos de entrada.
+ * @author oscardp96
+ * @since 14-02-2017
+ */
 public class InputUnit {
 	private ArrayList<Integer> InputTape;
+	private int pointer;
 	
-	
-	public InputUnit (String filename) throws IOException {
+	/**
+	 * El constructor prepara la cinta de entrada en un ArrayList a partir de los datos contenidos en un fichero.
+	 * @param filename Nombre del fichero que contiene la cinta de entrada.
+	 * @throws IOException En el caso de que haya algún error en la apertura, lectura o cierre del fichero.
+	 * @throws NumberFormatException En el caso de que el contenido del fichero no sea exclusivamente de números enteros.
+	 */
+	public InputUnit (String filename) throws IOException, NumberFormatException {
 		File readFile = null; 
 		BufferedReader openedFile = null;
+		pointer = 0;
 		try {
 			readFile = new File (filename);
 			openedFile = new BufferedReader (new FileReader (readFile));
@@ -34,4 +47,15 @@ public class InputUnit {
 			}
 		}
 	}
+	
+	public int getPointer () {
+		return pointer;
+	}
+	
+	public Integer accessTape () {
+		pointer++;
+		return InputTape.get(pointer-1);
+	}
+	
+	
 }

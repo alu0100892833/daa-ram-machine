@@ -1,5 +1,5 @@
 package daaRAMachine;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * La clase DataMemory representa la memoria de datos de la máquina RAM, es decir, un conjunto infinito de registros.
@@ -8,16 +8,16 @@ import java.util.ArrayList;
  * 
  */
 public class DataMemory {
-	private ArrayList<Integer> data;
+	private HashMap<Integer, Integer> data;
 	
 	
 	public DataMemory () {
-		data = new ArrayList<Integer> (1);
-		data.set(0, 0);
+		data = new HashMap<Integer, Integer> ();
+		data.put(0, 0);
 	}
 	
 	public void write (int index, Integer newData) {
-		data.add(index, newData);
+		data.put(index, newData);
 	}
 	
 	public Integer read (int index) {

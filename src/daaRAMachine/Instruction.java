@@ -29,7 +29,7 @@ public class Instruction
             //la variable iter tomará el nombre de la instrucción de descomposition[0] si no hay etiquetas, y de [1] si las hay
             int iter = 0;    
             if (descomposition[iter].charAt(descomposition[iter].length() - 1) == ':') {
-                label = descomposition[iter];
+                label = descomposition[iter].substring(0, descomposition[iter].length()-1);
                 iter++;
             } else
                 label = "";
@@ -114,14 +114,27 @@ public class Instruction
         }
     }
 
+    /**
+     * Para las instrucciones con estructura: instrucción + constante o direccionamiento.
+     * Comprueba que su sintaxis es correcta.
+     * @return booleano con el resultado
+     */
     private boolean basicInstruction() {
         return ((!pointing.equals("")) && (addrType != 'N'));
     }
 
+    /**
+     * Para las instrucciones de salto. Comprueba que su sintaxis sea correcta.
+     * @return booleano con el resultado
+     */
     private boolean jumpingInstruction() {
         return ((!pointing.equals("")) && (addrType == 'D'));
     }
 
+    /**
+     * Para la instrucción halt. Comprueba que no tiene más argumentos.
+     * @return booleano con el resultado
+     */
     private boolean haltInstruction () {
         return ((pointing.equals("")) && (addrType == 'N'));
     }

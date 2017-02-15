@@ -21,6 +21,7 @@ public class InputUnit {
 	public InputUnit (String filename) throws IOException, NumberFormatException {
 		File readFile = null; 
 		BufferedReader openedFile = null;
+		inputTape = new ArrayList<Integer>();
 		pointer = 0;
 		try {
 			readFile = new File (filename);

@@ -41,10 +41,13 @@ public class ControlUnit {
 				String trimedLine = new String (readingLine.trim());
 				if (!trimedLine.equals(""))
 					if (trimedLine.charAt(0) != '#') {
-						Instruction newIns = new Instruction (readingLine);
+						Instruction newIns = new Instruction (trimedLine);
 						executing.loadInstruction(newIns);
 					}
 			}
+		}
+		catch (IOException e) {
+			System.out.println("Error en la apertura del programa RAM. Asegurése de que el fichero existe.");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -72,6 +75,7 @@ public class ControlUnit {
 	 */
 	public void run () {
 		boolean stop = false;
+		boolean error = false;
 		try {
 			while ((instructionPointer < executing.size()) && (!stop)) {
 				Instruction toDo = executing.readInstruction(instructionPointer);
@@ -79,15 +83,15 @@ public class ControlUnit {
 				execute(toDo, stop);
 				executedInstructions++;
 			}
-			outTape.close(false);
 			System.out.println("El número de instrucciones ejecutadas fue de: " + this.getExecutedInstructions());
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			error = true;
 		}
 		finally {
 			try {
-				outTape.close(true);
+				outTape.close(error);
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -95,7 +99,7 @@ public class ControlUnit {
 		}
 	}
 	
-	private void execute (Instruction toDo, boolean stop) {
+	private void execute (Instruction toDo, boolean stop) throws Exception {
 		int operand = -1;
 		switch (toDo.getType()) {
 		case "LOAD": 
@@ -127,19 +131,21 @@ public class ControlUnit {
 			this.read(operand, toDo.getAddrType());
 			break;
 		case "WRITE":
+			if (toDo.getPointing().equals("0"))
+				throw new Exception ("La instrucción WRITE no puede interactuar con el registro R0.");
 			operand = Integer.parseInt(toDo.getPointing());
 			this.write(operand, toDo.getAddrType());
 			break;
 		case "JUMP":
-			this.jump(toDo.getLabel());
+			this.jump(toDo.getPointing());
 			break;
 		case "JGTZ":
 			if (registers.read(0) > 0)
-				this.jump(toDo.getLabel());
+				this.jump(toDo.getPointing());
 			break;
 		case "JZERO":
 			if (registers.read(0) == 0)
-				this.jump(toDo.getLabel());
+				this.jump(toDo.getPointing());
 			break;
 		case "HALT":
 			stop = true;

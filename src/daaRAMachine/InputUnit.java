@@ -31,11 +31,17 @@ public class InputUnit {
 			for (int i=0; i < splitting.length; i++) 
 				inputTape.add(Integer.parseInt(splitting[i]));	
 			if (openedFile.readLine() != null)
-				throw new IOException();
+				throw new NumberFormatException();
 		}
-		catch (NumberFormatException|IOException e) {
+		catch (NumberFormatException e) {
 			System.out.println("Error en la lectura de la cinta de entrada. Tal vez contenga elementos inadecuados.");
 			e.printStackTrace();
+		}
+		catch (IOException e) {
+			System.out.println("Error en la lectura de la cinta de entrada. Asegúrese de que el fichero existe.");
+		}
+		catch (Exception e) {
+			System.out.println("ERROR en la lectura del fichero. Puede contener elementos inadecuados o tal vez no exista. ");
 		}
 		finally {
 			try {
@@ -53,9 +59,22 @@ public class InputUnit {
 		return pointer;
 	}
 	
-	public Integer accessTape () {
-		pointer++;
-		return inputTape.get(pointer-1);
+	public Integer accessTape () throws IndexOutOfBoundsException {
+		try {
+			if (pointer < inputTape.size()) {
+				pointer++;
+				return inputTape.get(pointer-1);
+			}
+			else {
+				throw new IndexOutOfBoundsException();
+			}
+		}
+		catch (IndexOutOfBoundsException e) {
+			System.out.println("La cinta de entrada se ha vaciado y se ha intentado acceder de nuevo.");
+			System.out.println("El programa podría no estar bien diseñado o la cinta de entrada podría ser incompatible.");
+			return null;
+		}
+		
 	}
 	
 	

@@ -24,7 +24,7 @@ public class Instruction
             insLine = insLine.toUpperCase();
             String[] descomposition = insLine.split("\\s+");
             if ((descomposition.length > 3) || (descomposition.length < 1))
-                throw new Exception("Formato de instrucción inadecuado");
+                throw new Exception("Formato de instrucción inadecuado --> " + insLine);
             
             //la variable iter tomará el nombre de la instrucción de descomposition[0] si no hay etiquetas, y de [1] si las hay
             int iter = 0;    
@@ -53,8 +53,9 @@ public class Instruction
             checkIntegrity();
         }
         catch (Exception e) {
-            System.out.println("ERROR leyendo una instrucción.");
+            System.out.println("ERROR leyendo la instrucción: " + insLine);
             e.printStackTrace();
+            System.exit(1);
         }
     }
 
@@ -79,7 +80,6 @@ public class Instruction
      * @throws Exception Es lanzada cuando la instrucción no es reconocida o no tiene sentido
      */
     private void checkIntegrity () throws Exception {
-        try {
             boolean correct = true;
             switch (type) {
                 case "LOAD":
@@ -108,10 +108,6 @@ public class Instruction
             
             if (!correct)
                 throw new Exception("Formato de instrucción inadecuado.");   //si alguna de las comprobaciones ha fallado, es que la instrucción está reconocida pero no bien formulada
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**

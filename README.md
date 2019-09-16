@@ -1,2 +1,2 @@
-# daa-ram-machine
+# DAA - RAM MACHINE
 Implementation of a RAM Machine made in Java.
